@@ -111,8 +111,14 @@ class EsgtodayArticle(NewsClass):
 				self.image_url = og['content']
 			else:
 				fig = soup.find('figure')
+<<<<<<< HEAD
+				if fig and fig.find('img'):
+					img = fig.find('img')
+					self.image_url = img.get('data-src') or img.get('data-lazy-src') or img.get('src')
+=======
 				if fig and fig.find('img') and fig.find('img').get('src'):
 					self.image_url = fig.find('img')['src']
+>>>>>>> esgtest-r/main
 		except Exception:
 			print('Esgtoday image error')
 
@@ -151,18 +157,38 @@ def Parse_EsgtodayBase(link: str = Esgtoday_link):
 # helper to sort by date if available
 def myFunc(l: EsgtodayArticle):
 	"""Extract datetime for sorting, fallback to datetime.min if not available or parseable"""
+<<<<<<< HEAD
+	min_date = pytz.utc.localize(datetime.min)
 	try:
 		if isinstance(l.date, datetime):
+			if l.date.tzinfo is None:
+				return pytz.utc.localize(l.date)
+=======
+	try:
+		if isinstance(l.date, datetime):
+>>>>>>> esgtest-r/main
 			return l.date
 		# try parse string
 		if isinstance(l.date, str):
 			try:
+<<<<<<< HEAD
+				parsed = datetime.fromisoformat(l.date)
+				if parsed.tzinfo is None:
+					parsed = pytz.utc.localize(parsed)
+				return parsed
+			except Exception:
+				return min_date
+	except Exception:
+		pass
+	return min_date
+=======
 				return datetime.fromisoformat(l.date)
 			except Exception:
 				return datetime.min
 	except Exception:
 		pass
 	return datetime.min
+>>>>>>> esgtest-r/main
 
 
 def MakeUniq(list2: list):

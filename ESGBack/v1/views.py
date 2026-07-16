@@ -17,7 +17,10 @@ from .permissions import IsAdminUserRole, IsOwnerOrAdminOrReadOnly
 from .serializers import *
 from .services import send_subscription_confirmation_email
 from .tasks import repeat_order_make, run_all_parsers
+<<<<<<< HEAD
+=======
 from v1.parsers.NlpMethods import default_genre_preferences, get_esg_subgenres
+>>>>>>> esgtest-r/main
 
 
 news_list_schema = extend_schema(
@@ -190,6 +193,12 @@ class SubscribeConfirmView(APIView):
 
         subscriber.is_active = True
         subscriber.confirmed_at = timezone.now()
+<<<<<<< HEAD
+        subscriber.save(update_fields=["is_active", "confirmed_at"])
+        return Response({"detail": "Subscription confirmed."}, status=200)
+
+
+=======
         if subscriber.genre_preferences is None:
             subscriber.genre_preferences = default_genre_preferences()
         subscriber.save(update_fields=["is_active", "confirmed_at", "genre_preferences"])
@@ -241,6 +250,7 @@ class SubscriptionPreferencesView(APIView):
         return Response(SubscriptionPreferencesReadSerializer(payload).data)
 
 
+>>>>>>> esgtest-r/main
 class RunParsersView(APIView):
     permission_classes = [permissions.IsAdminUser]
 

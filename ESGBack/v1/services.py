@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 
 from user.services import build_frontend_url
 
+<<<<<<< HEAD
+=======
 from v1.models import Subscriber
 from v1.parsers.ESGfilters import is_esg_content
 from v1.parsers.NlpMethods import (
@@ -12,6 +14,7 @@ from v1.parsers.NlpMethods import (
     should_notify_user,
 )
 
+>>>>>>> esgtest-r/main
 
 def send_subscription_confirmation_email(request, subscriber):
     frontend_url = build_frontend_url("subscriptions/confirm", token=subscriber.confirm_token)
@@ -32,6 +35,8 @@ def send_subscription_confirmation_email(request, subscriber):
     )
 
 
+<<<<<<< HEAD
+=======
 def normalize_genre_preferences(preferences):
     if preferences is None:
         return default_genre_preferences()
@@ -76,6 +81,7 @@ def get_news_notification_recipients(news):
     ]
 
 
+>>>>>>> esgtest-r/main
 def send_news_notification_email(news, recipients):
     if not recipients:
         return

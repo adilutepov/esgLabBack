@@ -1,7 +1,10 @@
 from rest_framework import serializers
 
+<<<<<<< HEAD
+=======
 from v1.parsers.NlpMethods import ESG_SUBGENRES, get_esg_subgenres
 
+>>>>>>> esgtest-r/main
 from .models import Comment, Course, Event, News, Project, Subscriber
 
 
@@ -39,6 +42,12 @@ class EventSerializer(serializers.ModelSerializer):
 class SubscriberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriber
+<<<<<<< HEAD
+        fields = ["id", "email", "is_active", "confirm_token", "confirmed_at", "created_at"]
+        read_only_fields = ["id", "is_active", "confirm_token", "confirmed_at", "created_at"]
+
+
+=======
         fields = [
             "id",
             "email",
@@ -70,6 +79,7 @@ class SubscriptionPreferencesReadSerializer(serializers.Serializer):
     is_active = serializers.BooleanField()
 
 
+>>>>>>> esgtest-r/main
 class AdminSubscriberSerializer(serializers.ModelSerializer):
     user_email = serializers.EmailField(source="user.email", read_only=True)
 
@@ -81,7 +91,10 @@ class AdminSubscriberSerializer(serializers.ModelSerializer):
             "user_email",
             "email",
             "is_active",
+<<<<<<< HEAD
+=======
             "genre_preferences",
+>>>>>>> esgtest-r/main
             "confirm_token",
             "confirmed_at",
             "created_at",

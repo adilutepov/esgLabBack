@@ -13,14 +13,22 @@ class Base(models.Model):
     lang = models.CharField(max_length=2, validators=[RegexValidator('en|ru|kk')])
 
 class Course(Base):
+<<<<<<< HEAD
+    cr_site_url = models.URLField(max_length=2000, unique=True)
+=======
     cr_site_url = models.URLField(max_length=2000)
+>>>>>>> esgtest-r/main
     isActive = models.BooleanField(default=True)
     def __str__(self):
         return self.title
 
 class News(Base):
     ar_date = models.DateTimeField(null=True, blank=True)
+<<<<<<< HEAD
+    ar_site_url = models.URLField(max_length=2000, unique=True, null=True, blank=True)
+=======
     ar_site_url = models.URLField(max_length=2000, null=True, blank=True)
+>>>>>>> esgtest-r/main
 
     def __str__(self):
         return self.title
@@ -29,13 +37,21 @@ class News(Base):
         ordering = ['-ar_date']
 
 class Project(Base):
+<<<<<<< HEAD
+    pr_site_url = models.URLField(max_length=2000, unique=True)
+=======
     pr_site_url = models.URLField(max_length=2000)
+>>>>>>> esgtest-r/main
     isActive = models.BooleanField(default=True)
     def __str__(self):
         return self.title
 
 class Event(Base):
+<<<<<<< HEAD
+    ev_site_url = models.URLField(max_length=2000, unique=True)
+=======
     ev_site_url = models.URLField(max_length=2000)
+>>>>>>> esgtest-r/main
     event_date = models.DateTimeField(null=True, blank=True)
     isActive = models.BooleanField(default=True)
 
@@ -51,7 +67,10 @@ class Subscriber(models.Model):
     is_active = models.BooleanField(default=False)
     confirm_token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     confirmed_at = models.DateTimeField(null=True, blank=True)
+<<<<<<< HEAD
+=======
     genre_preferences = models.JSONField(null=True, blank=True, default=None)
+>>>>>>> esgtest-r/main
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Comment(models.Model):

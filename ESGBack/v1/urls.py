@@ -20,7 +20,10 @@ from .views import (
     RunParsersView,
     SubscribeConfirmView,
     SubscribeView,
+<<<<<<< HEAD
+=======
     SubscriptionPreferencesView,
+>>>>>>> esgtest-r/main
     getCourseSiteList,
     getEventSiteList,
     getNewsSiteList,
@@ -41,7 +44,10 @@ urlpatterns = [
     path("Comments/", CommentViewSet.as_view({"get": "list", "post": "create"})),
     path("Comments/<int:pk>", CommentViewSet.as_view({"get": "retrieve", "put": "update", "patch": "partial_update", "delete": "destroy"})),
     path("subscribe/", SubscribeView.as_view(), name="subscribe"),
+<<<<<<< HEAD
+=======
     path("subscribe/preferences/", SubscriptionPreferencesView.as_view(), name="subscribe-preferences"),
+>>>>>>> esgtest-r/main
     path("subscribe/confirm/<uuid:token>/", SubscribeConfirmView.as_view(), name="subscribe-confirm"),
     path("admin/dashboard/", AdminDashboardView.as_view(), name="admin-dashboard"),
     path("admin/sources/", AdminContentSourcesView.as_view(), name="admin-sources"),

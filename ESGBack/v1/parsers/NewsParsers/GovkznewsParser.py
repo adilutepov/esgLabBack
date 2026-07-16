@@ -4,7 +4,10 @@ from datetime import datetime
 import requests
 import lxml
 from bs4 import BeautifulSoup
+<<<<<<< HEAD
+=======
 from v1.parsers.ESGfilters import filter_esg_items
+>>>>>>> esgtest-r/main
 from v1.parsers.ParsClasses import NewsClass
 
 GovKzUrl = 'https://www.gov.kz/'
@@ -40,9 +43,19 @@ def Parse_GovkznewsBase(header):
 def Parse_GovkznewsRu():
     article_json_list = Parse_GovkznewsBase(headersRu)
     article_list = [GovkzNews(a, 'ru', GovKzUrl) for a in article_json_list]
+<<<<<<< HEAD
+
+    return article_list
+=======
     return filter_esg_items(article_list, 'ru')
+>>>>>>> esgtest-r/main
 
 def Parse_GovkznewsKz():
     article_json_list = Parse_GovkznewsBase(headersKz)
     article_list = [GovkzNews(a, 'kk', GovKzUrl) for a in article_json_list]
+<<<<<<< HEAD
+
+    return article_list
+=======
     return filter_esg_items(article_list, 'kk')
+>>>>>>> esgtest-r/main

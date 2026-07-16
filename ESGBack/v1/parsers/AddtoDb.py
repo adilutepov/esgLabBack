@@ -32,7 +32,13 @@ def AddNews(parsed_list: list[NewsClass]):
         filtered = []
         for l in parsed_list:
             if isinstance(l.date, datetime.datetime):
+<<<<<<< HEAD
+                l_date_naive = l.date.replace(tzinfo=None)
+                last_date_naive = last_date.replace(tzinfo=None) if last_date else None
+                if last_date_naive is None or l_date_naive > last_date_naive:
+=======
                 if last_date is None or l.date > last_date:
+>>>>>>> esgtest-r/main
                     filtered.append(l)
             else:
                 print(f"Неверный формат даты у новости: {l.title}")
@@ -103,6 +109,26 @@ def AddEvent(ParsedList: list[EventClass]):
                     create_Event(e)
 
 def create_News(a:NewsClass):
+<<<<<<< HEAD
+    if not News.objects.filter(ar_site_url=a.url).exists():
+        News.objects.create(title=a.title, ar_date=a.date, digest=a.digest,
+                            image_url=a.image_url, site_url=a.site_url, ar_site_url=a.url, lang=a.lang)
+
+def create_Course(c:CourseClass):
+    if not Course.objects.filter(cr_site_url=c.url).exists():
+        Course.objects.create(title=c.title, cr_site_url=c.url, site_url=c.site_url,
+                              image_url=c.image_url, lang=c.lang, digest=c.digest)
+    
+def create_Project(p:ProjectClass):
+    if not Project.objects.filter(pr_site_url=p.url).exists():
+        Project.objects.create(title=p.title, pr_site_url=p.url, site_url=p.site_url,
+                               image_url=p.image_url, lang=p.lang, digest=p.digest)
+    
+def create_Event(e:EventClass):
+    if not Event.objects.filter(ev_site_url=e.url).exists():
+        Event.objects.create(title=e.title, ev_site_url=e.url, site_url=e.site_url,
+                             image_url=e.image_url, lang=e.lang, digest=e.digest, event_date=e.date)
+=======
     News.objects.create(title=a.title, ar_date=a.date, digest=a.digest,
                                   image_url=a.image_url, site_url=a.site_url, ar_site_url=a.url, lang=a.lang)
 
@@ -117,6 +143,7 @@ def create_Project(p:ProjectClass):
 def create_Event(e:EventClass):
     Event.objects.create(title=e.title, ev_site_url=e.url, site_url=e.site_url,
                            image_url=e.image_url, lang=e.lang, digest=e.digest, event_date=e.date)
+>>>>>>> esgtest-r/main
 
 
 def checkActive(ParsedList: list, DbList: list):

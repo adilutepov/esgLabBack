@@ -8,6 +8,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+<<<<<<< HEAD
+from webdriver_manager.core.os_manager import ChromeType
+=======
+>>>>>>> esgtest-r/main
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 from v1.parsers.ParsClasses import CourseClass
@@ -20,6 +24,10 @@ options = Options()
 options.add_argument('--headless')
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
+<<<<<<< HEAD
+options.binary_location = '/usr/bin/chromium'
+=======
+>>>>>>> esgtest-r/main
 
 class EyacademyCourse(CourseClass):
     def __init__(self, c:BeautifulSoup, lang, siteUrl):
@@ -43,7 +51,11 @@ class EyacademyCourse(CourseClass):
 
 def Parse_EyacademyBase(link):
     try:
+<<<<<<< HEAD
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()), options=options)
+=======
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+>>>>>>> esgtest-r/main
     except:
         driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(3)
