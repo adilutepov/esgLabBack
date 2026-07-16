@@ -1,6 +1,10 @@
 import requests, time, pytz
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+<<<<<<< HEAD
+=======
+from v1.parsers.ESGfilters import filter_esg_items
+>>>>>>> esgtest-r/main
 from v1.parsers.ParsClasses import NewsClass
 from datetime import datetime
 
@@ -104,4 +108,8 @@ def Parse_informkzRuNews(max_pages=5):
             news = InformKzNews(card, str(page), 'ru', link)
             result.append(news)
 
+<<<<<<< HEAD
     return result
+=======
+    return filter_esg_items(result, 'ru')
+>>>>>>> esgtest-r/main

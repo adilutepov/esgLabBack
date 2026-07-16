@@ -1,15 +1,25 @@
+<<<<<<< HEAD
 import py_compile
 from pathlib import Path
 from unittest.mock import patch
 
 from django.core import mail
 from django.test import SimpleTestCase, override_settings
+=======
+from django.core import mail
+from django.test import override_settings
+>>>>>>> esgtest-r/main
 from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from user.models import User
 
+<<<<<<< HEAD
+=======
+from v1.parsers.NlpMethods import ESG_SUBGENRES
+
+>>>>>>> esgtest-r/main
 from .models import Comment, News, Subscriber
 
 
@@ -52,6 +62,10 @@ class SubscriptionAndAdminTests(APITestCase):
 
         subscriber.refresh_from_db()
         self.assertTrue(subscriber.is_active)
+<<<<<<< HEAD
+=======
+        self.assertEqual(subscriber.genre_preferences, list(ESG_SUBGENRES))
+>>>>>>> esgtest-r/main
 
         self.client.credentials()
         self.authenticate(self.admin)
@@ -68,6 +82,64 @@ class SubscriptionAndAdminTests(APITestCase):
         self.assertIn("Major ESG Update", mail.outbox[1].subject)
         self.assertIn(self.user.email, mail.outbox[1].to)
 
+<<<<<<< HEAD
+=======
+    def test_subscription_preferences_update(self):
+        self.authenticate(self.user)
+        self.client.post("/api/v1/subscribe/")
+        subscriber = Subscriber.objects.get(email=self.user.email)
+        self.client.get(f"/api/v1/subscribe/confirm/{subscriber.confirm_token}/")
+
+        preferences_response = self.client.get("/api/v1/subscribe/preferences/")
+        self.assertEqual(preferences_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(preferences_response.data["available_genres"]), 5)
+        self.assertTrue(preferences_response.data["is_active"])
+
+        update_response = self.client.patch(
+            "/api/v1/subscribe/preferences/",
+            {"genre_preferences": ["climate", "waste"]},
+            format="json",
+        )
+        self.assertEqual(update_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(update_response.data["genre_preferences"], ["climate", "waste"])
+
+        subscriber.refresh_from_db()
+        self.assertEqual(subscriber.genre_preferences, ["climate", "waste"])
+
+    def test_genre_filtered_news_notification(self):
+        self.authenticate(self.user)
+        self.client.post("/api/v1/subscribe/")
+        subscriber = Subscriber.objects.get(email=self.user.email)
+        self.client.get(f"/api/v1/subscribe/confirm/{subscriber.confirm_token}/")
+        subscriber.genre_preferences = ["labor"]
+        subscriber.save(update_fields=["genre_preferences"])
+
+        self.client.credentials()
+        self.authenticate(self.admin)
+
+        climate_news = {
+            "title": "Солнечная электростанция",
+            "digest": "Снижение выбросов углерода",
+            "site_url": "https://example.com/climate",
+            "lang": "ru",
+        }
+        climate_response = self.client.post("/api/v1/admin/news/", climate_news, format="json")
+        self.assertEqual(climate_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(mail.outbox), 1)
+
+        labor_news = {
+            "title": "Забастовка на заводе",
+            "digest": "Рабочие требуют повышения зарплаты",
+            "site_url": "https://example.com/labor",
+            "lang": "ru",
+        }
+        labor_response = self.client.post("/api/v1/admin/news/", labor_news, format="json")
+        self.assertEqual(labor_response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertIn(self.user.email, mail.outbox[1].to)
+        self.assertIn("Забастовка", mail.outbox[1].subject)
+
+>>>>>>> esgtest-r/main
     def test_admin_dashboard_and_comment_moderation(self):
         news = News.objects.create(
             title="Public news",
@@ -98,6 +170,7 @@ class SubscriptionAndAdminTests(APITestCase):
 
         comment.refresh_from_db()
         self.assertTrue(comment.is_approved)
+<<<<<<< HEAD
 
 
 class SecurityRegressionTests(APITestCase):
@@ -195,3 +268,5 @@ class SyntaxRegressionTests(SimpleTestCase):
         for path in python_files:
             with self.subTest(path=path.relative_to(project_root)):
                 py_compile.compile(str(path), doraise=True)
+=======
+>>>>>>> esgtest-r/main

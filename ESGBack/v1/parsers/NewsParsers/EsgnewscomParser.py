@@ -30,12 +30,17 @@ class EsgNewsArticle(NewsClass):
             soup = BeautifulSoup(raw.text, 'lxml')
 
             try:
+<<<<<<< HEAD
                 figure = soup.find('figure')
                 img_tag = figure.find('img') if figure else soup.find('img', class_='wp-post-image')
                 if img_tag:
                     self.image_url = img_tag.get('data-src') or img_tag.get('data-lazy-src') or img_tag.get('src')
             except Exception as e:
                 print('Esgnews image error:', e)
+=======
+                self.image_url = soup.find('figure').find('img', src=True)['src']  # Получение картинки
+            except: print('Esgnews image error')
+>>>>>>> esgtest-r/main
 
             try:
                 soup = soup.find('div',

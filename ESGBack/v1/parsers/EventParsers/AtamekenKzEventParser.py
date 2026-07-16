@@ -4,6 +4,10 @@ from html import unescape
 
 import requests
 
+<<<<<<< HEAD
+=======
+from v1.parsers.ESGfilters import filter_esg_items
+>>>>>>> esgtest-r/main
 from v1.parsers.ParsClasses import EventClass
 
 url_atamekenKzRu = 'https://atameken.kz/ru/'
@@ -43,7 +47,12 @@ def Parse_AtamekenKzRuEvents():
 
     payload = raw.json()
     events_data = payload.get('results', [])
+<<<<<<< HEAD
     return [AtamekenKzEvent(event_data, 'ru', url_atamekenKzRu) for event_data in events_data]
+=======
+    events = [AtamekenKzEvent(event_data, 'ru', url_atamekenKzRu) for event_data in events_data]
+    return filter_esg_items(events, 'ru')
+>>>>>>> esgtest-r/main
 
 
 def Parse_AtamekenKzKkEvents():
@@ -52,7 +61,12 @@ def Parse_AtamekenKzKkEvents():
 
     payload = raw.json()
     events_data = payload.get('results', [])
+<<<<<<< HEAD
     return [AtamekenKzEvent(event_data, 'kk', url_atamekenKzKk) for event_data in events_data]
+=======
+    events = [AtamekenKzEvent(event_data, 'kk', url_atamekenKzKk) for event_data in events_data]
+    return filter_esg_items(events, 'kk')
+>>>>>>> esgtest-r/main
 
 
 def Parse_AtamekenKzEnEvents():
@@ -61,4 +75,9 @@ def Parse_AtamekenKzEnEvents():
 
     payload = raw.json()
     events_data = payload.get('results', [])
+<<<<<<< HEAD
     return [AtamekenKzEvent(event_data, 'en', url_atamekenKzEn) for event_data in events_data]
+=======
+    events = [AtamekenKzEvent(event_data, 'en', url_atamekenKzEn) for event_data in events_data]
+    return filter_esg_items(events, 'en')
+>>>>>>> esgtest-r/main

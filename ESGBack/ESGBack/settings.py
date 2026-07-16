@@ -104,7 +104,7 @@ else:
             "NAME": os.getenv("DB_NAME", "esgdb"),
             "USER": os.getenv("DB_USER", "esguser"),
             "PASSWORD": os.getenv("DB_PASSWORD", "esgpass"),
-            "HOST": os.getenv("DB_HOST", "db"),
+            "HOST": os.getenv("DB_HOST", "localhost"),
             "PORT": os.getenv("DB_PORT", "5432"),
         }
     }
@@ -154,7 +154,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
     "ROTATE_REFRESH_TOKENS": True,
