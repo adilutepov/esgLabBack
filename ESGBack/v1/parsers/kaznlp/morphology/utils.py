@@ -131,14 +131,10 @@ def split_morph(m,mdlm='_'):
     ms = {'sf':'?','lp':'?','rp':'?'}
     ents = m.split(mdlm)
     ms['sf'] = ents[0]
-    try:
+    if len(ents) > 1:
         ms['lp'] = ents[1]
-    except:
-        pass
-    try:
+    if len(ents) > 2:
         ms['rp'] = ents[2]
-    except:
-        pass
     return ms
 
 
@@ -252,11 +248,15 @@ def get_cnts(fn,cdlm='_',log=None):
     if not fn:
         return cnts
     for l in get_lines(fn):
+        ents = l.split(cdlm)
+        if len(ents) < 2:
+            continue
+        sq = cdlm.join(ents[:-1])
         try:
-            ents = l.split(cdlm)
-            sq = cdlm.join(ents[:-1])
             cnt = float(ents[-1])
-        except:
+        except ValueError as exc:
+            if log:
+                log.warning("Invalid count in %s: %s", fn, exc)
             continue
         cnts[sq] = cnt
     return cnts

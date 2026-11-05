@@ -14,6 +14,7 @@ import os
 import sys
 from datetime import timedelta
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,9 +31,16 @@ def env_list(name, default=""):
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-dev-secret-key-for-local-testing-only-123456")
-DEBUG = env_bool("DEBUG", True)
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") or get_random_secret_key()
+DEBUG = env_bool("DEBUG", False)
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "127.0.0.1,localhost")
+
+if not DEBUG:
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    X_FRAME_OPTIONS = "DENY"
 
 
 INSTALLED_APPS = [
@@ -103,7 +111,7 @@ else:
             "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.postgresql"),
             "NAME": os.getenv("DB_NAME", "esgdb"),
             "USER": os.getenv("DB_USER", "esguser"),
-            "PASSWORD": os.getenv("DB_PASSWORD", "esgpass"),
+            "PASSWORD": os.getenv("DB_PASSWORD", ""),
             "HOST": os.getenv("DB_HOST", "localhost"),
             "PORT": os.getenv("DB_PORT", "5432"),
         }
@@ -186,12 +194,12 @@ AUTHENTICATION_BACKENDS = [
 
 DJOSER = {
     "LOGIN_FIELD": "email",
-    "USER_CREATE_PASSWORD_RETYPE": True,
+    "USER_CREATE_PASSWORD_RETYPE": True,  # nosec B105
     "USERNAME_CHANGED_EMAIL_CONFIRMATION": False,
-    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": False,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": False,  # nosec B105
     "SEND_ACTIVATION_EMAIL": True,
     "ACTIVATION_URL": "verify/{uid}/{token}",
-    "PASSWORD_RESET_CONFIRM_URL": "reset/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "reset/{uid}/{token}",  # nosec B105
     "SITE_NAME": "ESG KBTU",
     "DOMAIN": "localhost:3000",
     "SERIALIZERS": {

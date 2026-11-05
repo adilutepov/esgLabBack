@@ -77,7 +77,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs["password"] != attrs["re_password"]:
-            raise serializers.ValidationError({"re_password": "Passwords do not match."})
+            raise serializers.ValidationError({"re_password": "Passwords do not match."})  # nosec B105
         return attrs
 
     def create(self, validated_data):
@@ -160,12 +160,12 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         if attrs["password"] != attrs["re_password"]:
-            raise serializers.ValidationError({"re_password": "Passwords do not match."})
+            raise serializers.ValidationError({"re_password": "Passwords do not match."})  # nosec B105
 
         try:
             self.user = User.objects.get(password_reset_token=attrs["token"])
         except User.DoesNotExist as exc:
-            raise serializers.ValidationError({"token": "Invalid or expired reset token."}) from exc
+            raise serializers.ValidationError({"token": "Invalid or expired reset token."}) from exc  # nosec B105
         return attrs
 
     def save(self, **kwargs):

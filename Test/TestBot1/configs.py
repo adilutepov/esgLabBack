@@ -1,6 +1,7 @@
 import os
 
-# Токен Telegram-бота
-TELEGRAM_BOT_TOKEN = "7580181835:AAGxUDP7e3jxKFAOxRF765PDU7j-IYxfPig"
-siteDomain = 'http://127.0.0.1:8000'
-OurSite = 'http://127.0.0.1:8000'
+# Токен Telegram-бота загружается из переменных окружения
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+siteDomain = os.getenv("SITE_DOMAIN", "http://127.0.0.1:8000")
+OurSite = os.getenv("OUR_SITE", "http://127.0.0.1:8000")
+REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "10"))

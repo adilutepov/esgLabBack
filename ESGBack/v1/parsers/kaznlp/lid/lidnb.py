@@ -58,10 +58,10 @@ class NB():
             elif secs['feature-type']:
                 self.level = (line in ['CHAR', 'WORD']) and line or self.level
             elif secs['features']:
-                try:
-                    [trm, lbl, prb] = line.split('\t')
-                except:
+                parts = line.split('\t')
+                if len(parts) != 3:
                     continue
+                trm, lbl, prb = parts
                 self.trm_probs[trm, lbl] = float(prb)
         self.other = self.classes[-1]
 

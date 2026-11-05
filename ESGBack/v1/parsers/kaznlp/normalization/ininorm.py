@@ -24,7 +24,7 @@ class CharCleaner():
         # refrain from editing unless absolutely need to
         self.uncom_reps = {
                 u'\u00a0': ' ', 
-                u'​': '', u'‪': '', u'‎': '', u'‬': '', u'‏': '', u'­': '', 
+                u'\u200b': '', u'\u202a': '', u'\u200e': '', u'\u202c': '', u'\u200f': '', u'\u00ad': '', 
                 u'¬': '', '‚': ', ', u'¸': ', ', u'́': u'', u'‑': u'-', u'−': u'-', 
                 # u'': u'•', u'⁰': u'°', u'': u'°', \
                 u'ı': 'y', 

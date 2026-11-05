@@ -2,7 +2,7 @@ import requests
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 
-from configs import siteDomain
+from configs import siteDomain, REQUEST_TIMEOUT
 from handlers import bot
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
@@ -10,7 +10,7 @@ users = ['704838385']
 
 # Функция для отправки рассылки
 async def send_daily_message():
-    report_info = requests.get(f'{siteDomain}/api/v1/Report/').json()
+    report_info = requests.get(f'{siteDomain}/api/v1/Report/', timeout=REQUEST_TIMEOUT).json()
     message_text = f'''Уведомление по сегодняшнему парсингу:
     
 Колличество ошибок: {report_info['ErrorNumber']}

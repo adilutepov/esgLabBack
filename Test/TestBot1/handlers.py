@@ -5,7 +5,7 @@ from aiogram.filters import Command
 from aiogram import Bot
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from configs import TELEGRAM_BOT_TOKEN, siteDomain, OurSite
+from configs import TELEGRAM_BOT_TOKEN, siteDomain, OurSite, REQUEST_TIMEOUT
 import requests
 
 
@@ -14,7 +14,7 @@ bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 @router1.message(Command("do"))
 async def do_command(message: types.Message):
-    js = requests.get(f"{siteDomain}/api/v1/RecentArticles/").json()
+    js = requests.get(f"{siteDomain}/api/v1/RecentArticles/", timeout=REQUEST_TIMEOUT).json()
     for a in js:
         text = a['title'] + '\n\n' + a['digest'] + '\n\n' + f'<a href="{OurSite}">Посетите наш сайт👈👈👈</a>'
         kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -41,7 +41,7 @@ async def start_command(message: types.Message):
 
 
 def ErrorButtons(link):
-    ErrorsJson = requests.get(f"{link}").json()
+    ErrorsJson = requests.get(f"{link}", timeout=REQUEST_TIMEOUT).json()
     ErrorsJson2 = ErrorsJson['results']
 
     ErrorList = [{'id': Error['id'], 'errorname': ProperErrorName(Error), 'errorText': Error['ErrorText']} for Error in
@@ -73,13 +73,13 @@ async def process_callback_Errpage(callback_query: types.CallbackQuery):
 @router1.callback_query(lambda c: c.data.startswith("err"))
 async def process_callback_err(callback_query: types.CallbackQuery):
     ErrorID = callback_query.data[3:]
-    ErrorJson = requests.get(f"{siteDomain}/api/v1/Errors/{ErrorID}").json()
+    ErrorJson = requests.get(f"{siteDomain}/api/v1/Errors/{ErrorID}", timeout=REQUEST_TIMEOUT).json()
     ErrorInfo = (ProperErrorName({'ParsedSite': ErrorJson['ParsedSite'], 'ErrorDate': ErrorJson['ErrorDate']}) +
                  '\n\n' + ErrorJson['ErrorText'])
     await bot.send_message(callback_query.from_user.id, ErrorInfo)
 
 def ArticleButtons(link):
-    ArticlesJson = requests.get(f"{link}").json()
+    ArticlesJson = requests.get(f"{link}", timeout=REQUEST_TIMEOUT).json()
     Article = ArticlesJson['results']
 
     if len(Article) > 0:
@@ -121,9 +121,9 @@ async def process_callback_ArtAct(callback_query: types.CallbackQuery):
     result = ""
     print(link)
     if "Approve" in link:
-        result = requests.post(link).json()['message']
+        result = requests.post(link, timeout=REQUEST_TIMEOUT).json()['message']
     elif "Disapprove" in link:
-        result = requests.delete(link).json()['message']
+        result = requests.delete(link, timeout=REQUEST_TIMEOUT).json()['message']
 
     chat_id = callback_query.message.chat.id
     message_id = callback_query.message.message_id

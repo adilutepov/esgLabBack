@@ -1,0 +1,47 @@
+name: Security Code Analysis (SAST & SCA)
+
+on:
+  push:
+    branches: [ main, "fix/**" ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install SAST, SCA & SBOM tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit pip-audit cyclonedx-bom
+
+      - name: Run SAST (Bandit) on ESGBack & Bot modules
+        run: |
+          mkdir -p security_reports
+          bandit -r ESGBack Test/TestBot1 test_db.py -x ESGBack/user/tests.py -lll -f txt -o security_reports/sast_high_severity.txt
+          bandit -r ESGBack Test/TestBot1 test_db.py -x ESGBack/user/tests.py -f html -o security_reports/sast_report.html
+          cat security_reports/sast_high_severity.txt
+
+      - name: Run SCA (pip-audit) on ESGBack requirements.txt
+        run: |
+          pip-audit --no-deps --disable-pip -r ESGBack/requirements.txt -f markdown -o security_reports/sca_report.md
+          cat security_reports/sca_report.md
+
+      - name: Generate CycloneDX SBOM
+        run: |
+          cyclonedx-py requirements ESGBack/requirements.txt --of JSON -o security_reports/sbom_cyclonedx.json
+
+      - name: Upload Security Reports & SBOM Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scan-reports
+          path: security_reports/
